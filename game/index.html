@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Gilded Vault — a museum heist</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f5f0dc;
+      --dim: #c8cede;
+      --gold: #ffd23c;
+      --teal: #2dd4bf;
+      --red: #ff5b5b;
+      --panel: #0d1526;
+      --line: #2b3554;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #070b16;
+      color: var(--ink);
+      font-family: "Trebuchet MS", Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 10px 18px;
+      background: var(--panel);
+      border-bottom: 2px solid var(--line);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+    h1 span { color: var(--dim); font-size: 14px; letter-spacing: 0; font-weight: normal; }
+    .hud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      align-items: center;
+      font-size: 15px;
+    }
+    .hud .cell { white-space: nowrap; }
+    .alarm-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 240px;
+      flex: 1 1 240px;
+    }
+    .alarm-bar {
+      flex: 1;
+      height: 14px;
+      background: #1a2340;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      overflow: hidden;
+    }
+    #hud-alarm-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      transition: width 0.15s linear;
+    }
+    #hud-alarm-fill.hot { background: var(--red); }
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    canvas {
+      width: min(100%, calc((100vh - 150px) * 1.6));
+      height: auto;
+      max-height: calc(100vh - 150px);
+      aspect-ratio: 960 / 600;
+      background: #141a2e;
+      border: 2px solid var(--line);
+      border-radius: 6px;
+      display: block;
+    }
+    footer {
+      padding: 8px 18px 12px;
+      color: var(--dim);
+      font-size: 13px;
+    }
+    footer b { color: var(--ink); }
+    #status { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>THE GILDED VAULT <span>— a museum heist in three rooms</span></h1>
+    <div class="hud" role="status">
+      <span class="cell" id="hud-level">Room 1/3</span>
+      <span class="alarm-wrap">
+        <span id="hud-alarm-text">Alarm 0%</span>
+        <span class="alarm-bar"><span id="hud-alarm-fill"></span></span>
+      </span>
+      <span class="cell" id="hud-loot">Loot</span>
+      <span class="cell" id="hud-score">Score 0</span>
+      <span class="cell" id="hud-tools">Tools</span>
+      <span class="cell" id="hud-time">Time 0s</span>
+    </div>
+  </header>
+  <main>
+    <canvas id="game" width="960" height="600" aria-label="The museum floor. Rook the thief moves through rooms with patrolling wardens, sweeping cameras, gold loot, and a green exit."></canvas>
+  </main>
+  <footer>
+    <b>WASD / arrows</b> move &nbsp;·&nbsp; <b>Shift</b> sneak (harder to spot, slower) &nbsp;·&nbsp;
+    <b>1</b> toss a coin (or click a spot) &nbsp;·&nbsp; <b>2</b> smoke bomb &nbsp;·&nbsp; <b>3</b> jammer &nbsp;·&nbsp;
+    <b>P</b> pause &nbsp;·&nbsp; <b>R</b> retry &nbsp;·&nbsp; Grab the gold, then slip out the green exit.
+    Red cones are warden sight, amber cones are cameras, dark pools are shadows where you are hard to see.
+  </footer>
+  <p id="status" aria-live="polite"></p>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
